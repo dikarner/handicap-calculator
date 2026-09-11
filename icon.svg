@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="36" fill="#0d5c2e"/>
+  <path d="M70 30v112" stroke="#f4f0e4" stroke-width="8" stroke-linecap="round"/>
+  <path d="M74 34l50 20-50 20Z" fill="#f4f0e4"/>
+  <ellipse cx="74" cy="150" rx="26" ry="9" fill="#c9e3cf"/>
+  <rect x="98" y="96" width="58" height="44" rx="10" fill="#f4f0e4"/>
+  <text x="127" y="128" text-anchor="middle" font-size="28" font-family="-apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif" font-weight="700" fill="#0d5c2e">18</text>
+</svg>

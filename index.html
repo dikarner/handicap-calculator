@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f4f0e4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16150f" media="(prefers-color-scheme: dark)" />
+    <title>Handicap Calculator</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <button class="course-btn" data-act="switch" type="button">
+        <span class="name" id="course-name">Atzenbrugg</span>
+        <span class="club" id="course-club">Diamond Country Club</span>
+      </button>
+      <button class="icon-btn" data-act="places" type="button" data-i18n-title="places" data-i18n="places">Orte</button>
+      <button class="icon-btn" id="here-btn" data-act="here" type="button" data-i18n="here" data-i18n-title="hereTitle">Hier</button>
+    </header>
+    <p class="meta" id="meta"></p>
+    <p class="hint geo-help" id="geo-help" hidden></p>
+
+    <section class="card index-card">
+      <div class="index-row">
+        <h2 data-i18n="index">Handicap-Index</h2>
+        <input id="index-input" inputmode="decimal" autocomplete="off" placeholder="18,4" />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="tee">Abschlag</h2>
+      <div id="tee-body"></div>
+    </section>
+
+    <section class="card" id="result-card">
+      <div id="result-body"></div>
+    </section>
+
+    <footer>
+      <span data-i18n="footer">WHS §6.1 / §6.2. Persönliche Nutzung.</span>
+    </footer>
+
+    <dialog id="switcher">
+      <div class="sheet-head">
+        <h2 data-i18n="course">Platz</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <div id="switcher-list"></div>
+    </dialog>
+
+    <dialog id="places">
+      <div class="sheet-head">
+        <h2 data-i18n="places">Orte</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <p class="hint" data-i18n="placesHint">Gespeicherte Plätze.</p>
+      <div id="places-list"></div>
+      <p><button class="btn primary" data-act="add-course" type="button" data-i18n="addPlace">Platz hinzufügen</button></p>
+    </dialog>
+
+    <dialog id="add-sheet">
+      <div class="sheet-head">
+        <h2 data-i18n="addPlaceTitle">Platz hinzufügen</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <label class="field"><span data-i18n="nameToShow">Anzeigename</span><input id="add-name" /></label>
+      <label class="field"><span data-i18n="search">Suche</span>
+        <input id="add-search" data-i18n-placeholder="searchPh" placeholder="Golfclub oder Ort" />
+      </label>
+      <p>
+        <button class="btn" id="add-search-btn" type="button" data-i18n="searchAustria">In Österreich suchen</button>
+        <button class="btn ghost" id="add-search-world" type="button" data-i18n="searchWorld">Alle Länder</button>
+        <button class="btn" id="add-gps-btn" type="button" data-i18n="useGps">GPS verwenden</button>
+      </p>
+      <p class="hint" data-i18n="useGpsHint">Pin durch den Standort dieses Geräts ersetzen, wenn Sie dort stehen.</p>
+      <div id="add-results"></div>
+      <p id="add-picked" class="hint" hidden></p>
+      <input type="hidden" id="add-lat" />
+      <input type="hidden" id="add-lon" />
+      <p id="add-err" class="hint error" hidden></p>
+      <p><button class="btn primary" id="add-save" type="button" data-i18n="save">Speichern</button></p>
+    </dialog>
+
+    <dialog id="edit-place">
+      <div class="sheet-head">
+        <h2 data-i18n="editPlace">Platz bearbeiten</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <input type="hidden" id="edit-id" />
+      <label class="field"><span data-i18n="nameToShow">Anzeigename</span><input id="edit-name" /></label>
+      <label class="field"><span data-i18n="clubName">Golfclub / Untertitel</span><input id="edit-club" /></label>
+      <p>
+        <button class="btn" id="edit-gps-btn" type="button" data-i18n="useGps">GPS verwenden</button>
+      </p>
+      <p id="edit-gps-note" class="hint" hidden></p>
+      <p><button class="btn primary" id="edit-save" type="button" data-i18n="save">Speichern</button></p>
+    </dialog>
+
+    <dialog id="tee-sheet">
+      <div class="sheet-head">
+        <h2 id="tee-sheet-title" data-i18n="addTee">Abschlag hinzufügen</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <input type="hidden" id="tee-id" />
+      <p class="hint" data-i18n="color">Farbe</p>
+      <div class="chips" id="tee-colors"></div>
+      <p class="hint" data-i18n="gender">Herren / Damen</p>
+      <div class="chips" id="tee-gender"></div>
+      <p class="hint" data-i18n="holes">Löcher</p>
+      <div class="chips" id="tee-holes"></div>
+      <div class="grid-3">
+        <label class="field"><span data-i18n="cr">CR</span><input id="tee-cr" inputmode="decimal" autocomplete="off" /></label>
+        <label class="field"><span data-i18n="slope">Slope</span><input id="tee-slope" inputmode="numeric" autocomplete="off" /></label>
+        <label class="field"><span data-i18n="par">Par</span><input id="tee-par" inputmode="numeric" autocomplete="off" /></label>
+      </div>
+      <p id="tee-err" class="hint error" hidden></p>
+      <p>
+        <button class="btn primary" id="tee-save" type="button" data-i18n="save">Speichern</button>
+        <button class="btn danger" id="tee-delete" type="button" hidden data-i18n="deleteTee">Abschlag löschen</button>
+      </p>
+    </dialog>
+
+    <dialog id="info-sheet">
+      <div class="sheet-head">
+        <h2 data-i18n="formulaTitle">World Handicap System</h2>
+        <button class="btn ghost" data-act="close" type="button" data-i18n="close">Schließen</button>
+      </div>
+      <p class="hint" data-i18n="formulaBody"></p>
+    </dialog>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

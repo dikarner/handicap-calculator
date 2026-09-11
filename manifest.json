@@ -1,0 +1,15 @@
+{
+  "name": "Handicap Calculator",
+  "short_name": "Handicap",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f0e4",
+  "theme_color": "#f4f0e4",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
