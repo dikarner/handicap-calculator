@@ -925,5 +925,12 @@ loadOgv().then(() => {
 });
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js").catch(() => {});
+  const hadWorker = Boolean(navigator.serviceWorker.controller);
+  navigator.serviceWorker
+    .register("./sw.js", { updateViaCache: "none" })
+    .then((reg) => reg.update())
+    .catch(() => {});
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (hadWorker) location.reload();
+  });
 }
