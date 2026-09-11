@@ -290,14 +290,19 @@ function renderSwitcher() {
 
 function renderPlaces() {
   $("places-list").innerHTML = state.courses
-    .map((c) => {
+    .map((c, i) => {
       const on = c.id === state.activeId ? ` · ${t("current")}` : "";
+      const last = i === state.courses.length - 1;
       return `<div class="list-item" data-id="${c.id}">
         <div class="grow">
           <div class="name">${c.name}${on}</div>
           <div class="sub">${c.club || ""} · ${c.tees.length} ${t("tee")}</div>
         </div>
         <div class="row-actions">
+          <button class="btn" data-act="top" title="${t("moveTop")}" ${i === 0 ? "disabled" : ""}>⤒</button>
+          <button class="btn" data-act="up" title="${t("moveUp")}" ${i === 0 ? "disabled" : ""}>↑</button>
+          <button class="btn" data-act="down" title="${t("moveDown")}" ${last ? "disabled" : ""}>↓</button>
+          <button class="btn" data-act="bottom" title="${t("moveBottom")}" ${last ? "disabled" : ""}>⤓</button>
           <button class="btn" data-act="edit-place">${t("edit")}</button>
           <button class="btn" data-act="use">${t("open")}</button>
           <button class="btn danger" data-act="del">✕</button>
@@ -845,6 +850,26 @@ document.addEventListener("click", (e) => {
   if (act === "del") {
     const id = actEl.closest("[data-id]")?.dataset.id;
     if (id) deleteCourse(id);
+    return;
+  }
+  if (act === "top" || act === "up" || act === "down" || act === "bottom") {
+    const id = actEl.closest("[data-id]")?.dataset.id;
+    const i = state.courses.findIndex((c) => c.id === id);
+    if (i < 0) return;
+    if (act === "top" && i > 0) {
+      const [item] = state.courses.splice(i, 1);
+      state.courses.unshift(item);
+    } else if (act === "up" && i > 0) {
+      [state.courses[i - 1], state.courses[i]] = [state.courses[i], state.courses[i - 1]];
+    } else if (act === "down" && i < state.courses.length - 1) {
+      [state.courses[i + 1], state.courses[i]] = [state.courses[i], state.courses[i + 1]];
+    } else if (act === "bottom" && i < state.courses.length - 1) {
+      const [item] = state.courses.splice(i, 1);
+      state.courses.push(item);
+    } else return;
+    persist();
+    renderPlaces();
+    renderSwitcher();
     return;
   }
   if (act === "tee-color") {
