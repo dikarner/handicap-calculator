@@ -61,7 +61,13 @@
       </div>
       <p class="hint" data-i18n="placesHint">Gespeicherte Plätze.</p>
       <div id="places-list"></div>
-      <p><button class="btn primary" data-act="add-course" type="button" data-i18n="addPlace">Platz hinzufügen</button></p>
+      <p>
+        <button class="btn primary" data-act="add-course" type="button" data-i18n="addPlace">Platz hinzufügen</button>
+        <button class="btn" data-act="export-places" type="button" data-i18n="exportPlaces">Sichern</button>
+        <button class="btn" data-act="import-places" type="button" data-i18n="importPlaces">Laden</button>
+        <input id="import-file" type="file" accept="application/json,.json" hidden />
+      </p>
+      <p class="hint" id="places-note" hidden></p>
     </dialog>
 
     <dialog id="add-sheet">

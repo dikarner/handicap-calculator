@@ -59,30 +59,50 @@ function normalizeTee(t) {
   };
 }
 
+export function fromParsed(parsed) {
+  const courses = Array.isArray(parsed?.courses)
+    ? parsed.courses.map(normalizeCourse).filter((c) => c.id && c.name)
+    : [];
+  const state = {
+    index: parsed?.index == null || parsed.index === "" ? null : Number(parsed.index),
+    allowance: Number(parsed?.allowance) || 95,
+    gender: parsed?.gender === "w" ? "w" : "m",
+    courses: courses.length ? courses : structuredClone(SEED_COURSES),
+    activeId: String(parsed?.activeId || ""),
+  };
+  if (!Number.isFinite(state.index)) state.index = null;
+  if (![100, 95, 85].includes(state.allowance)) state.allowance = 95;
+  if (!state.courses.some((c) => c.id === state.activeId)) {
+    state.activeId = state.courses[0].id;
+  }
+  return state;
+}
+
 export function loadState() {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return blank();
-    const parsed = JSON.parse(raw);
-    const courses = Array.isArray(parsed.courses)
-      ? parsed.courses.map(normalizeCourse).filter((c) => c.id && c.name)
-      : [];
-    const state = {
-      index: parsed.index == null || parsed.index === "" ? null : Number(parsed.index),
-      allowance: Number(parsed.allowance) || 95,
-      gender: parsed.gender === "w" ? "w" : "m",
-      courses: courses.length ? courses : structuredClone(SEED_COURSES),
-      activeId: String(parsed.activeId || ""),
-    };
-    if (!Number.isFinite(state.index)) state.index = null;
-    if (![100, 95, 85].includes(state.allowance)) state.allowance = 95;
-    if (!state.courses.some((c) => c.id === state.activeId)) {
-      state.activeId = state.courses[0].id;
-    }
-    return state;
+    return fromParsed(JSON.parse(raw));
   } catch {
     return blank();
   }
+}
+
+export function snapshot(state) {
+  return {
+    v: 1,
+    index: state.index,
+    allowance: state.allowance,
+    gender: state.gender,
+    courses: state.courses,
+    activeId: state.activeId,
+  };
+}
+
+export function parseSnapshot(text) {
+  const parsed = JSON.parse(text);
+  if (!parsed || !Array.isArray(parsed.courses)) throw new Error("bad snapshot");
+  return fromParsed(parsed);
 }
 
 export function saveState(state) {

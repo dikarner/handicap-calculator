@@ -10,7 +10,7 @@ import {
   crOk,
   parOk,
 } from "./handicap.js";
-import { loadState, saveState } from "./storage.js";
+import { loadState, saveState, snapshot, parseSnapshot } from "./storage.js";
 import {
   kmBetween,
   readGps,
@@ -787,6 +787,14 @@ document.addEventListener("click", (e) => {
     openAddSheet();
     return;
   }
+  if (act === "export-places") {
+    exportPlaces();
+    return;
+  }
+  if (act === "import-places") {
+    $("import-file").click();
+    return;
+  }
   if (act === "add-tee") {
     openTeeEditor(null);
     return;
@@ -906,6 +914,43 @@ $("edit-save").addEventListener("click", saveEditPlace);
 $("edit-gps-btn").addEventListener("click", gpsForEdit);
 $("tee-save").addEventListener("click", saveTee);
 $("tee-delete").addEventListener("click", deleteTee);
+
+function setPlacesNote(msg) {
+  const el = $("places-note");
+  el.hidden = !msg;
+  el.textContent = msg || "";
+}
+
+function exportPlaces() {
+  const blob = new Blob([JSON.stringify(snapshot(state), null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "handicap-places.json";
+  a.rel = "noopener";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  setPlacesNote(t("exportPlaces"));
+}
+
+$("import-file").addEventListener("change", async (e) => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  try {
+    const next = parseSnapshot(await file.text());
+    state.index = next.index;
+    state.allowance = next.allowance;
+    state.gender = next.gender;
+    state.courses = next.courses.map((c) => hydrateCourse(c));
+    state.activeId = next.activeId;
+    persist();
+    render();
+    $("places").showModal();
+    setPlacesNote(t("importOk"));
+  } catch {
+    setPlacesNote(t("importFail"));
+  }
+});
 
 document.querySelectorAll("dialog").forEach((d) => {
   d.addEventListener("click", (e) => {
