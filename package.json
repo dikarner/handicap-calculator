@@ -1,6 +1,1 @@
-{
-  "type": "module",
-  "scripts": {
-    "test": "node --test handicap.test.mjs ogv.test.mjs"
-  }
-}
+{"type":"module","scripts":{"test":"node --test handicap.test.mjs ogv.test.mjs"}}

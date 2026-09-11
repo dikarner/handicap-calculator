@@ -8,6 +8,7 @@ const SHELL = [
   "./geo.js",
   "./ogv.js",
   "./ogv.json",
+  "./ogv.b64",
   "./storage.js",
   "./i18n.js",
   "./manifest.json",

@@ -14,7 +14,7 @@ Phone-sized page, German/English, light/dark, **Hier** (GPS) and search.
 - Search and **Hier** match that catalogue. Pick a layout (Diamond / Gold / Park, …) then a tee.
 - Abroad or missing tees: enter CR, Slope and Par from the scorecard.
 
-Formula (18 holes): `Index × (Slope ÷ 113) + (CR − Par)`. Nine-hole rounds use half the index.
+Formula (18 holes): `Index × (Slope ÷ 113) + (CR − Par)`. Nine-hole tees use half the index.
 
 Refresh the catalogue (needs network, a few minutes):
 

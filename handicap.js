@@ -28,6 +28,7 @@ export function courseHandicapUnrounded({ index, slope, cr, par, holes = 18 }) {
   const nine = Number(holes) === 9;
   const raw18 = hi * (sr / 113) + (rating - p);
   if (!nine) return raw18;
+  // True 9-hole CR/Par (WHS 6.1b). ÖGV often prints 18-hole ratings for a 9 played twice — then the whole 18-hole CH is halved.
   if (p <= 42) return hi * (sr / 113) * 0.5 + (rating - p);
   return raw18 * 0.5;
 }
