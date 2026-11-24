@@ -1,9 +1,10 @@
-const CACHE = "golf-handicap-v11";
+const CACHE = "golf-handicap-v12";
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./app.js?v=12",
   "./handicap.js",
   "./geo.js",
   "./ogv.js",
@@ -17,7 +18,9 @@ const SHELL = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL.map((u) => u.trim())))
+    caches.open(CACHE).then((cache) =>
+      cache.addAll(SHELL.map((u) => new Request(u.trim(), { cache: "reload" })))
+    )
   );
   self.skipWaiting();
 });
@@ -35,7 +38,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== location.origin) return;
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request, { cache: "reload" })
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(event.request, copy));
