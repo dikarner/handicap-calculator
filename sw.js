@@ -1,4 +1,4 @@
-const CACHE = "golf-handicap-v10";
+const CACHE = "golf-handicap-v11";
 const SHELL = [
   "./",
   "./index.html",

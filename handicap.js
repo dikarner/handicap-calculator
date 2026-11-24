@@ -46,9 +46,10 @@ export function playingHandicap(opts, allowancePct = 100) {
   return roundStrokes(u * (pct / 100));
 }
 
-export function targetScore(par, ch, holes = 18) {
+/** Gross for net par / 36 Stableford points: play par + playing handicap. */
+export function targetScore(par, playingHcp, holes = 18) {
   const p = playPar(par, holes);
-  const c = Number(ch);
+  const c = Number(playingHcp);
   if (![p, c].every(Number.isFinite)) return null;
   return p + c;
 }

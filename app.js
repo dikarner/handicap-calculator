@@ -239,7 +239,7 @@ function renderResult() {
   const opts = { index: hi, slope: tee.slope, cr: tee.cr, par: tee.par, holes };
   const ch = courseHandicap(opts);
   const ph = playingHandicap(opts, state.allowance);
-  const target = targetScore(tee.par, ch, holes);
+  const target = targetScore(tee.par, ph, holes);
   const plus = ch < 0 ? `<p class="hint">${t("plusHint")}</p>` : "";
   const allowOpts = [
     [100, "allow100"],

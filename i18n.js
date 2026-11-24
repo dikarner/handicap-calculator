@@ -83,7 +83,7 @@ const de = {
   formula: "Formel",
   formulaTitle: "World Handicap System",
   formulaBody:
-    "Platzvorgabe = Index × (Slope ÷ 113) + (Course Rating − Par). 9-Loch-Runde: Index wird halbiert (WHS §6.1b). Die Spielvorgabe ist die Platzvorgabe mal den Anteil der Spielform (in Österreich oft 95 % im Zählspiel). Kein ÖGV-Service — Werte mit der Scorekarte prüfen.",
+    "Platzvorgabe = Index × (Slope ÷ 113) + (Course Rating − Par). 9-Loch-Runde: Index wird halbiert (WHS §6.1b). Die Spielvorgabe ist die Platzvorgabe mal den Anteil der Spielform (in Österreich oft 95 % im Zählspiel). Zielscore = Par + Spielvorgabe. Kein ÖGV-Service — Werte mit der Scorekarte prüfen.",
   footer:
     "WHS §6.1 / §6.2. Persönliche Nutzung. Österreichische CR/Slope/Par: öffentlicher Vorgabenrechner auf golf.at.",
   plusHint: "Plus-Vorgabe (Schläge abgeben)",
@@ -189,7 +189,7 @@ const en = {
   formula: "Formula",
   formulaTitle: "World Handicap System",
   formulaBody:
-    "Course Handicap = Index × (Slope ÷ 113) + (Course Rating − Par). 9-hole round: the index is halved (WHS §6.1b). Playing Handicap is Course Handicap times the format allowance (often 95% in stroke play). Not an ÖGV service — check values against the scorecard.",
+    "Course Handicap = Index × (Slope ÷ 113) + (Course Rating − Par). 9-hole round: the index is halved (WHS §6.1b). Playing Handicap is Course Handicap times the format allowance (often 95% in stroke play). Target score = Par + Playing Handicap. Not an ÖGV service — check values against the scorecard.",
   footer:
     "WHS §6.1 / §6.2. Personal use. Austrian CR/Slope/Par: public calculator on golf.at.",
   plusHint: "Plus handicap (give strokes)",

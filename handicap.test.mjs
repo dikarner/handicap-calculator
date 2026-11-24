@@ -78,8 +78,12 @@ test("plus handicap", () => {
   assert.equal(fmtHcp(0), "0");
 });
 
-test("target score is par + rounded CH", () => {
-  assert.equal(targetScore(72, 21), 93);
+test("target score is par plus playing handicap", () => {
+  const opts = { index: 12.5, slope: 138, cr: 71.3, par: 72 };
+  assert.equal(playingHandicap(opts, 100), 15);
+  assert.equal(playingHandicap(opts, 95), 14);
+  assert.equal(targetScore(72, playingHandicap(opts, 100)), 87);
+  assert.equal(targetScore(72, playingHandicap(opts, 95)), 86);
   assert.equal(targetScore(72, -3), 69);
 });
 
